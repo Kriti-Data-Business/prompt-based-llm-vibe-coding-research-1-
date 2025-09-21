@@ -1,0 +1,1 @@
+Subproblem A: Parse and validate input.\nSubproblem B: Compute result.\nCombine solutions to complete the task.\n\ndef solution():\n    import sys\n    data = list(map(int, sys.stdin.read().split()))\n    # implement logic here\n\nif __name__ == '__main__':\n    solution()\n
