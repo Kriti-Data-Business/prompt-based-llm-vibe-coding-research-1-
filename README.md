@@ -28,7 +28,7 @@
 
 ## 1. Research Overview
 
-This research investigates whether the **structure and phrasing of a prompt** given to a large language model (LLM) meaningfully changes its ability to generate functionally correct code for competitive programming problems. The study uses **execution-based evaluation** — solutions are compiled and run against hidden test cases — rather than text-similarity metrics such as BLEU, which are known to correlate poorly with functional correctness.
+This research investigates whether the **structure and phrasing of a prompt** given to a large language model (LLM) meaningfully changes its ability to generate functionally correct code for competitive programming problems. The study uses **execution-based evaluation** - solutions are compiled and run against hidden test cases - rather than text-similarity metrics such as BLEU, which are known to correlate poorly with functional correctness.
 
 The evaluation framework is aligned with **LiveCodeBench** (Jain et al., 2024, arXiv:2403.07974), a rigorous benchmark that evaluates LLMs holistically across problem difficulty and platform origin. The pipeline extends LiveCodeBench's approach by testing three distinct prompt strategies across problems sourced from three competitive programming platforms (LeetCode, AtCoder, Codeforces) at three difficulty tiers (Easy, Medium, Hard).
 
@@ -43,8 +43,8 @@ The evaluation framework is aligned with **LiveCodeBench** (Jain et al., 2024, a
 | ID | Hypothesis |
 |----|-----------|
 | **H1** | Platform of origin significantly predicts LLM solve rate, independently of the difficulty label applied to a problem. |
-| **H2** | Prompt strategy effects are platform-conditional — no single prompt strategy is universally optimal across all platforms. |
-| **H3** | There is no measurable overfitting to public test cases — public and hidden test pass rates will be equal across all platforms. |
+| **H2** | Prompt strategy effects are platform-conditional - no single prompt strategy is universally optimal across all platforms. |
+| **H3** | There is no measurable overfitting to public test cases - public and hidden test pass rates will be equal across all platforms. |
 
 ---
 
@@ -55,11 +55,11 @@ The evaluation framework is aligned with **LiveCodeBench** (Jain et al., 2024, a
 | Platform | Rating System | Difficulty Tiers Used | Total Problems |
 |---|---|---|---|
 | LeetCode | Categorical tag (editorial team) | Easy, Medium, Hard | 205 |
-| AtCoder | ELO-style (0–3000+) — ABC rounds only | Easy (0–199), Medium (200–399), Hard (400–500) | 236 |
-| Codeforces | Numeric per-problem — Div.3 & Div.4 only | 800, 801–1000, 1001–1300 | 9 |
+| AtCoder | ELO-style (0–3000+) - ABC rounds only | Easy (0–199), Medium (200–399), Hard (400–500) | 236 |
+| Codeforces | Numeric per-problem - Div.3 & Div.4 only | 800, 801–1000, 1001–1300 | 9 |
 | **Total** | | | **450** |
 
->  Codeforces n=9 — results are directional only and not statistically generalisable.
+>  Codeforces n=9 - results are directional only and not statistically generalisable.
 
 ### Dataset File
 
@@ -91,7 +91,7 @@ problems_dataset_150x3.csv
 
 ## 4. Experimental Design
 
-### Phase 1 — Prompt Strategy Comparison
+### Phase 1 - Prompt Strategy Comparison
 
 - **Model:** LLaMA-3.3-70B-Instruct
 - **Problems:** 150 (50 Easy + 50 Medium + 50 Hard)
@@ -104,7 +104,7 @@ Each problem is sent independently to the model under each of the three prompt s
 
 ### Resume Logic
 
-The pipeline supports resuming interrupted runs — already-completed `(ProblemID, Prompt)` pairs are skipped automatically by checking the existing output CSV before each run.
+The pipeline supports resuming interrupted runs - already-completed `(ProblemID, Prompt)` pairs are skipped automatically by checking the existing output CSV before each run.
 
 ### Rate Limiting
 
@@ -146,9 +146,9 @@ Problems are classified into two execution modes based on platform:
 
 | Platform | Input Mode | Evaluator Used |
 |---|---|---|
-| LeetCode | `functional` | `run_tests_functional()` — exec() → `solution(*args)` → compare return value |
-| AtCoder | `stdin` | `run_tests_stdin()` — subprocess → stdin pipe → compare stdout |
-| Codeforces | `stdin` | `run_tests_stdin()` — subprocess → stdin pipe → compare stdout |
+| LeetCode | `functional` | `run_tests_functional()` - exec() → `solution(*args)` → compare return value |
+| AtCoder | `stdin` | `run_tests_stdin()` - subprocess → stdin pipe → compare stdout |
+| Codeforces | `stdin` | `run_tests_stdin()` - subprocess → stdin pipe → compare stdout |
 
 The mode is detected automatically from the `Platform` or `InputMode` column in the dataset CSV. If neither is present, `stdin` is used as a safe default.
 
@@ -180,9 +180,9 @@ Each solution is classified into one of three quality buckets for failure analys
 
 | Bucket | Condition | Meaning |
 |---|---|---|
-| B1 — Full correct | Compiles + passes public + passes hidden | Correct solution |
-| B3 — Logic failure | Compiles but fails public tests | Wrong algorithm |
-| B4 — Syntax failure | Does not compile | Broken code |
+| B1 - Full correct | Compiles + passes public + passes hidden | Correct solution |
+| B3 - Logic failure | Compiles but fails public tests | Wrong algorithm |
+| B4 - Syntax failure | Does not compile | Broken code |
 
 ---
 
@@ -190,7 +190,7 @@ Each solution is classified into one of three quality buckets for failure analys
 
 All three strategies use the same underlying problem content (name, description, first two examples). They differ only in framing and reasoning instruction.
 
-### P1 — Zero-Shot Basic
+### P1 - Zero-Shot Basic
 
 ```
 Solve the following coding problem in Python.
@@ -206,7 +206,7 @@ Examples:
 
 A minimal prompt. No persona, no reasoning instruction. Tests the model's baseline ability with no scaffolding.
 
-### P2 — Expert-Structured
+### P2 - Expert-Structured
 
 ```
 You are an expert Python programmer.
@@ -227,7 +227,7 @@ Examples:
 
 Adds an expert persona and explicit quality requirements. Tests whether role-priming and quality framing improve correctness.
 
-### P3 — Chain-of-Thought (CoT)
+### P3 - Chain-of-Thought (CoT)
 
 ```
 Solve this coding problem step by step in Python.
@@ -247,7 +247,7 @@ Examples:
 {format_instruction}
 ```
 
-Elicits explicit step-by-step reasoning before code generation. Tests whether structured thinking improves functional correctness — particularly on harder problems.
+Elicits explicit step-by-step reasoning before code generation. Tests whether structured thinking improves functional correctness - particularly on harder problems.
 
 ### Format Instructions (LCB-Aligned)
 
@@ -277,7 +277,7 @@ Each prompt ends with one of two format instructions depending on `input_mode`:
 | Codeforces | 100.0% | 50.0% | 88.9%  |
 | LeetCode | 72.0% | 47.8% | 44.0% |
 
->  Codeforces Hard (88.9%) > Medium (50.0%) is a **sampling artefact** — n=3 Hard problems, not a real difficulty inversion.
+>  Codeforces Hard (88.9%) > Medium (50.0%) is a **sampling artefact** - n=3 Hard problems, not a real difficulty inversion.
 
 ### Platform × Prompt Performance (Full Dataset)
 
@@ -300,9 +300,9 @@ Each prompt ends with one of two format instructions depending on `input_mode`:
 
 | Hardness Label | Count | Description |
 |---|---|---|
-| `easy — all prompts succeed` | 11 | Solved by P1, P2, and P3 |
-| `mixed — some succeed` | 18 | Solved by at least one prompt but not all |
-| `hard — all prompts fail` | 121 | Failed by all three prompts |
+| `easy - all prompts succeed` | 11 | Solved by P1, P2, and P3 |
+| `mixed - some succeed` | 18 | Solved by at least one prompt but not all |
+| `hard - all prompts fail` | 121 | Failed by all three prompts |
 
 ---
 
@@ -312,14 +312,14 @@ Each prompt ends with one of two format instructions depending on `input_mode`:
 
 Computed across all 9 (Difficulty × Prompt) groups for three metrics: compile rate, public pass rate, hidden pass rate.
 
-**Results (Hidden Pass Rate — primary metric):**
+**Results (Hidden Pass Rate - primary metric):**
 
 | Difficulty | Test | Stat | p-value | Significant? |
 |---|---|---|---|---|
-| Easy | Chi² (P1 vs P2 vs P3) | — | — |  |
-| Easy | Fisher P1 vs P2 | OR reported | — |  |
-| Medium | Chi² (P1 vs P2 vs P3) | — | — |  |
-| Hard | Chi² (P1 vs P2 vs P3) | — | — |  |
+| Easy | Chi² (P1 vs P2 vs P3) | - | - |  |
+| Easy | Fisher P1 vs P2 | OR reported | - |  |
+| Medium | Chi² (P1 vs P2 vs P3) | - | - |  |
+| Hard | Chi² (P1 vs P2 vs P3) | - | - |  |
 
 > No pairwise prompt comparison reached p < 0.05 within any single difficulty tier, indicating prompt effects are small relative to problem difficulty effects.
 
@@ -335,7 +335,7 @@ Computed across all 9 (Difficulty × Prompt) groups for three metrics: compile r
 | Kruskal-Wallis (Easy only) | All 3 platforms | H = 31.15 | p < 0.0001 |  Significant |
 | Kruskal-Wallis (Medium only) | All 3 platforms | H = 15.29 | p = 0.0005 |  Significant |
 | Kruskal-Wallis (Hard only) | All 3 platforms | H = 6.95 | p = 0.031 |  Significant |
-| MWU pub–hid gap | All pairwise | — | p = 1.0 |  Gap = 0 everywhere |
+| MWU pub–hid gap | All pairwise | - | p = 1.0 |  Gap = 0 everywhere |
 
 ### Generation Time vs Correctness
 
@@ -353,11 +353,11 @@ Pearson correlation between generation time (seconds) and hidden test correctnes
 
 ## 10. Key Findings
 
-### Finding 1 — Platform origin is the strongest predictor of solve rate
+### Finding 1 - Platform origin is the strongest predictor of solve rate
 
-The platform a problem comes from explains more variance in solve rate than the difficulty label applied to it. The Kruskal-Wallis test confirmed this platform effect holds within every difficulty stratum (Easy p < 0.0001, Medium p = 0.0005, Hard p = 0.031). The clearest evidence: AtCoder Easy (91.3%) vs LeetCode Easy (72.0%) — a 19.3pp gap on identically labelled problems.
+The platform a problem comes from explains more variance in solve rate than the difficulty label applied to it. The Kruskal-Wallis test confirmed this platform effect holds within every difficulty stratum (Easy p < 0.0001, Medium p = 0.0005, Hard p = 0.031). The clearest evidence: AtCoder Easy (91.3%) vs LeetCode Easy (72.0%) - a 19.3pp gap on identically labelled problems.
 
-### Finding 2 — Best prompt is platform-dependent, not universal
+### Finding 2 - Best prompt is platform-dependent, not universal
 
 | Platform | Best Prompt | Reason |
 |---|---|---|
@@ -367,19 +367,19 @@ The platform a problem comes from explains more variance in solve rate than the 
 
 A universal prompting strategy will systematically underperform a platform-aware one.
 
-### Finding 3 — Prompt differences are not statistically significant within difficulty tiers
+### Finding 3 - Prompt differences are not statistically significant within difficulty tiers
 
 No pairwise prompt comparison reached p < 0.05 within Easy, Medium, or Hard tiers individually. The practical differences (e.g., P2 at 28% vs P3 at 18% on Hard) are real but small relative to the much larger effect of problem difficulty and platform origin.
 
-### Finding 4 — Zero overfitting across all platforms
+### Finding 4 - Zero overfitting across all platforms
 
-Public test pass rate equals hidden test pass rate exactly across all 1,350 runs (gap = 0.0pp on every platform, MWU p = 1.0). The model either solves or fails to solve the underlying algorithm — it does not pattern-match to visible examples.
+Public test pass rate equals hidden test pass rate exactly across all 1,350 runs (gap = 0.0pp on every platform, MWU p = 1.0). The model either solves or fails to solve the underlying algorithm - it does not pattern-match to visible examples.
 
-### Finding 5 — Most failures are logic errors, not syntax errors
+### Finding 5 - Most failures are logic errors, not syntax errors
 
-Across all difficulty and prompt combinations, 70–88% of all solutions compile successfully but fail public tests (Bucket B3 — logic failure). Non-compiling code (Bucket B4 — syntax error) is rare (0–8%). The model understands Python syntax; its weakness is algorithmic problem-solving.
+Across all difficulty and prompt combinations, 70–88% of all solutions compile successfully but fail public tests (Bucket B3 - logic failure). Non-compiling code (Bucket B4 - syntax error) is rare (0–8%). The model understands Python syntax; its weakness is algorithmic problem-solving.
 
-### Finding 6 — Hard problems are not uniformly harder than Easy for this model
+### Finding 6 - Hard problems are not uniformly harder than Easy for this model
 
 Several Easy problems (e.g., `buy-two-chocolates`, `semi-ordered-permutation`) fail across all three prompts, while several Hard problems (e.g., `B. 250 Thousand Tons of TNT`, `count-complete-substrings`) are solved by all three. The nominal difficulty label is an unreliable predictor of model performance at the individual problem level.
 
@@ -389,7 +389,7 @@ Several Easy problems (e.g., `buy-two-chocolates`, `semi-ordered-permutation`) f
 
 | File | Description |
 |---|---|
-| `phase1_llama70b-2-2204-metav2150_450x3.csv` | Phase 1 raw results — one row per (problem, prompt) |
+| `phase1_llama70b-2-2204-metav2150_450x3.csv` | Phase 1 raw results - one row per (problem, prompt) |
 | `platform_solve_rates.csv` | Solve rates by platform × difficulty × prompt |
 | `platform_public_vs_hidden.csv` | Public vs hidden pass rate gap per platform |
 | `platform_stat_tests.csv` | All statistical test results |
@@ -436,7 +436,7 @@ export OPENROUTER_API_KEY="your-key-here"
 
 >  Do NOT hard-code API keys in the script. Read from environment variable before running.
 
-### Phase 1 — Generate & Evaluate
+### Phase 1 - Generate & Evaluate
 
 ```bash
 python3 pipeline_lcb_aligned.py --phase 1
@@ -513,7 +513,7 @@ python3 pipeline_lcb_aligned.py --phase all
 |---|---|
 | Single model evaluated | Results may not generalise to other LLMs with different instruction-following characteristics |
 | Temperature = 0 | Deterministic outputs; no estimate of output variance across runs |
-| Codeforces n=9 | Codeforces results are directional only — not statistically generalisable |
+| Codeforces n=9 | Codeforces results are directional only - not statistically generalisable |
 | Phase 1 subset ≠ full dataset | The 150 phase1 problems are a subset of the 450 full-dataset problems; per-tier rates differ between the two |
 | Difficulty label inconsistency | "Easy" on LeetCode and "Easy" on AtCoder are not equivalent; cross-platform difficulty comparisons should be interpreted as platform comparisons, not true difficulty comparisons |
 | Unix-only execution | The functional evaluator uses `signal.SIGALRM` for timeout, which is unavailable on Windows |
@@ -530,7 +530,7 @@ If using this pipeline or results in academic work, please cite:
   title   = {Prompt Strategy Evaluation for LLM Code Generation on Competitive Programming Benchmarks},
   author  = {Kriti Yadav},
   year    = {2025},
-  note    = {Thesis research pipeline — LLaMA-3.3-70B-Instruct × P1/P2/P3 × 450 problems}
+  note    = {Thesis research pipeline - LLaMA-3.3-70B-Instruct × P1/P2/P3 × 450 problems}
 }
 ```
 
