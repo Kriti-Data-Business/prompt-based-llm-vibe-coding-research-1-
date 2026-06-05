@@ -1,0 +1,4 @@
+group1,group2,meandiff,p-adj,lower,upper,reject,group1_mean,group2_mean,mean_diff_pp
+P1,P2,-0.02,0.8105,-0.096,0.056,False,0.6244,0.6044,2.0
+P1,P3,0.0067,0.9769,-0.0693,0.0827,False,0.6244,0.6311,-0.67
+P2,P3,0.0267,0.6886,-0.0493,0.1027,False,0.6044,0.6311,-2.67

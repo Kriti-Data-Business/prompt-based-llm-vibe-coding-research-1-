@@ -1,0 +1,8 @@
+test,statistic,p_value,pass_p05,note
+Levene's (Difficulty),62.6392,0.0,False,Homogeneity of variance — want p≥0.05 for ANOVA assumption
+Levene's (Prompt),0.3672,0.692714,True,Homogeneity of variance — want p≥0.05 for ANOVA assumption
+Levene's (Platform),16.8006,0.0,False,Homogeneity of variance — want p≥0.05 for ANOVA assumption
+Shapiro-Wilk (residuals),0.881021,0.0,False,Normality of residuals — binary outcome will fail this; see logistic regression for robust inference
+Kruskal-Wallis (Difficulty),138.7954,0.0,,Non-parametric backup for main effect — no normality assumption
+Kruskal-Wallis (Prompt),0.7352,0.692406,,Non-parametric backup for main effect — no normality assumption
+Kruskal-Wallis (Platform),32.8321,0.0,,Non-parametric backup for main effect — no normality assumption

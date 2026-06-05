@@ -1,0 +1,4 @@
+group1,group2,meandiff,p-adj,lower,upper,reject,group1_mean,group2_mean,mean_diff_pp
+Easy,Hard,-0.3622,0.0,-0.4342,-0.2902,True,0.8356,0.4733,36.23
+Easy,Medium,-0.2844,0.0,-0.3564,-0.2125,True,0.8356,0.5511,28.45
+Hard,Medium,0.0778,0.0305,0.0058,0.1498,True,0.4733,0.5511,-7.78
